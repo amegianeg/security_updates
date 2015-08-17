@@ -17,6 +17,12 @@ if [ -r "/etc/lsb-release" ]; then
         RET=$?
         if [ $RET -eq 0 ]; then
             echo "Security upgrade finished"
+            echo "Checking reboot required..."
+            if [ -f /var/run/reboot-required ]; then
+                echo "Reboot required!"
+            else
+                echo "Reboot not required"
+            fi
         else
             echo "Security upgrade failed with error code $RET"
         fi

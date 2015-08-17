@@ -13,7 +13,7 @@ if [ -r "/etc/lsb-release" ]; then
         apt-get -y update
         /usr/lib/update-notifier/apt-check --human-readable
         grep security /etc/apt/sources.list > /tmp/security.list
-        apt-get upgrade -oDir::Etc::Sourcelist=/tmp/security.list
+        apt-get upgrade -y -oDir::Etc::Sourcelist=/tmp/security.list
         RET=$?
         if [ $RET -eq 0 ]; then
             echo "Security upgrade finished"

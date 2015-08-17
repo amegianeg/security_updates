@@ -27,6 +27,7 @@ if [ -r "/etc/lsb-release" ]; then
     fi
 
 elif [ -r "/etc/redhat-release" ]; then
+    # WARNING: WIP!
     echo "Detected 'redhat-release' (checking redhat release...)"
     DISTRO="`cat /etc/centos-release | awk '{ print $1, $4 }' | cut -d '.' -f1`"
     echo "Distribution: $DISTRO"

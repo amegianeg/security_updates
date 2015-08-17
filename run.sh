@@ -12,7 +12,7 @@ if [ -r "/etc/lsb-release" ]; then
         export DEBIAN_FRONTEND=noninteractive
         apt-get -y update
         grep security /etc/apt/sources.list > /tmp/security.list
-        apt-get upgrade -y -u -oDir::Etc::Sourcelist=/tmp/security.list
+        apt-get upgrade -oDir::Etc::Sourcelist=/tmp/security.list
         RET=$?
         if [ $RET -eq 0 ]; then
             echo "Security upgrade finished"

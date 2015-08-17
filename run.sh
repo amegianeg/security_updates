@@ -11,6 +11,7 @@ if [ -r "/etc/lsb-release" ]; then
         echo "Distribution $DISTRO supported! upgrading..."
         export DEBIAN_FRONTEND=noninteractive
         apt-get -y update
+        /usr/lib/update-notifier/apt-check --human-readable
         grep security /etc/apt/sources.list > /tmp/security.list
         apt-get upgrade -oDir::Etc::Sourcelist=/tmp/security.list
         RET=$?
@@ -20,6 +21,7 @@ if [ -r "/etc/lsb-release" ]; then
             echo "Security upgrade failed with error code $RET"
         fi
         rm /tmp/security.list
+        /usr/lib/update-notifier/apt-check --human-readable
     else
         echo "Ubuntu distribution not supported."
     fi

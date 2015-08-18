@@ -20,6 +20,9 @@ if [ -r "/etc/lsb-release" ]; then
             echo "Checking reboot required..."
             if [ -f /var/run/reboot-required ]; then
                 echo "Reboot required!"
+                if [ -f /var/run/reboot-required.pkgs ]; then
+                    cat /var/run/reboot-required.pkgs
+                fi
             else
                 echo "Reboot not required"
             fi

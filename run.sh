@@ -11,20 +11,32 @@ if [ -r "/etc/lsb-release" ]; then
         echo "Distribution $DISTRO supported! upgrading..."
         export DEBIAN_FRONTEND=noninteractive
         apt-get -y update
+        /usr/lib/update-notifier/apt-check --human-readable
         grep security /etc/apt/sources.list > /tmp/security.list
-        apt-get upgrade -y -u -oDir::Etc::Sourcelist=/tmp/security.list
+        apt-get upgrade -y -oDir::Etc::Sourcelist=/tmp/security.list
         RET=$?
         if [ $RET -eq 0 ]; then
             echo "Security upgrade finished"
+            echo "Checking reboot required..."
+            if [ -f /var/run/reboot-required ]; then
+                echo "Reboot required!"
+                if [ -f /var/run/reboot-required.pkgs ]; then
+                    cat /var/run/reboot-required.pkgs
+                fi
+            else
+                echo "Reboot not required"
+            fi
         else
             echo "Security upgrade failed with error code $RET"
         fi
         rm /tmp/security.list
+        /usr/lib/update-notifier/apt-check --human-readable
     else
         echo "Ubuntu distribution not supported."
     fi
 
 elif [ -r "/etc/redhat-release" ]; then
+    # WARNING: WIP!
     echo "Detected 'redhat-release' (checking redhat release...)"
     DISTRO="`cat /etc/centos-release | awk '{ print $1, $4 }' | cut -d '.' -f1`"
     echo "Distribution: $DISTRO"
